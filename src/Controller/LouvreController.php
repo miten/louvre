@@ -16,6 +16,11 @@ class LouvreController extends AbstractController
      */
     public function index(Request $request)
     {
+
+        $em = $this->getDoctrine()->getManager();
+
+
+
         $disabledates = ['29/12/2018', '01/01/2019', '30/12/2018'];
 
         $reservation = new Reservation();
@@ -27,8 +32,8 @@ class LouvreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $reservation = $form->getData();
+            var_dump($reservation);
 
-            $em = $this->getDoctrine()->getManager();
 
 
         }

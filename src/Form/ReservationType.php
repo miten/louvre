@@ -4,14 +4,14 @@ namespace App\Form;
 
 use App\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use App\Form\BilletType;
 
 class ReservationType extends AbstractType
@@ -19,24 +19,25 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('demiJournee', ChoiceType::class, array(
-                'choices' => array(
-                    'Oui' => true,
-                    'Non' => false,
-                ),
-                'expanded' => true))
-            ->add('date', TextareaType::class)
+            ->add('demiJournee', CheckboxType::class, array('required' => false,))
+            ->add('date', DateType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'yyyy-MM-dd',
+                'attr' => ['class' => 'input-sm form-control']))
             ->add('email', EmailType::class)
             ->add('billets', CollectionType::class, array(
                     'entry_type'    => BilletType::class,
                     'allow_add'     => true,
+                    'allow_delete'     => true,
                     'required' => true,
                     'by_reference'  => false,
                     'prototype' => true,
                 )
 
             )
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->add('save', SubmitType::class, array('label' => 'Reserver'))
+            ->getForm();
 
         ;
     }

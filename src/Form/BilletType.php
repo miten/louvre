@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class BilletType extends AbstractType
 {
@@ -16,7 +16,7 @@ class BilletType extends AbstractType
         $builder
             ->add('prenom', TextareaType::class)
             ->add('nom', TextareaType::class)
-            ->add('tarifReduit', RadioType::class)
+            ->add('tarifReduit', CheckboxType::class, array('required' => false,))
         ;
     }
 

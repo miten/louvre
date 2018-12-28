@@ -5,7 +5,7 @@
 {% block body %}
 <div class="opicity_back">
     <!-- multistep form -->
-    <form id="msform" >
+    <div id="msform" >
         {{ form_start(form) }}
         <!-- progressbar -->
         <ul id="progressbar">
@@ -19,7 +19,7 @@
             <h2 class="fs-title">Choisir une date</h2>
             <div id="sandbox-container" class="calendrier">
                 <div class="input-daterange input-group" id="datepicker">
-                    <input type="text" class="input-sm form-control" name="start" readonly="readonly" />
+                    {{ form_row(form.date, {'attr': {'name':'start', 'readonly':'readonly'}}) }}
                 </div>
             </div>
             {{ form_row(form.demiJournee) }}
@@ -27,7 +27,9 @@
         </fieldset>
         <fieldset>
             <h2 class="fs-title">Social Profiles</h2>
-            {{ form_row(form.email) }}
+            <ul class="tags" data-prototype="{{ form_widget(form.billets.vars.prototype)|e('html_attr') }}">
+                ...
+            </ul>
             <button type="button" name="previous" class="previous action-button">retour</button>
             <button type="button" name="nexte" class="nexte action-button">suivant</button>
         </fieldset>
@@ -40,10 +42,10 @@
         <fieldset>
             <h2 class="fs-title">Personal Details</h2>
             <button type="button" name="previous" class="previous action-button">retour</button>
-            <button type="submit" name="nexte" class="nexte action-button">Envoyer</button>
+            {{ form_row(form.save) }}
         </fieldset>
         {{ form_end(form) }}
-    </form>
+    </div>
 </div>
 
 {% endblock %}
@@ -53,7 +55,7 @@
 
         <script>
             $('#sandbox-container').datepicker({
-                format: 'dd/mm/yyyy',
+                format: 'yyyy-mm-dd',
                 datesDisabled: {{ dates|json_encode|raw }},
                 daysOfWeekDisabled: '2',
                 language: "fr",
@@ -145,5 +147,67 @@
                 return false;
             })
 
+        </script>
+
+        <script>
+            var $collectionHolder;
+
+            // setup an "add a tag" link
+            var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
+            var $newLinkLi = $('<li></li>').append($addTagButton);
+
+            jQuery(document).ready(function() {
+                // Get the ul that holds the collection of tags
+                $collectionHolder = $('ul.tags');
+
+                // add the "add a tag" anchor and li to the tags ul
+                $collectionHolder.append($newLinkLi);
+
+                // count the current form inputs we have (e.g. 2), use that as the new
+                // index when inserting a new item (e.g. 2)
+                $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+                $addTagButton.on('click', function(e) {
+                    // add a new tag form (see next code block)
+                    addTagForm($collectionHolder, $newLinkLi);
+                });
+            });
+
+
+            function addTagForm($collectionHolder, $newLinkLi) {
+                // Get the data-prototype explained earlier
+                var prototype = $collectionHolder.data('prototype');
+
+                // get the new index
+                var index = $collectionHolder.data('index');
+
+                var newForm = prototype;
+                // You need this only if you didn't set 'label' => false in your tags field in TaskType
+                // Replace '__name__label__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                // newForm = newForm.replace(/__name__label__/g, index);
+
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                newForm = newForm.replace(/__name__/g, index);
+
+                // increase the index with one for the next item
+                $collectionHolder.data('index', index + 1);
+
+                // Display the form in the page in an li, before the "Add a tag" link li
+                var $newFormLi = $('<li></li>').append(newForm);
+                $newLinkLi.before($newFormLi);
+            }
+
+
+            function addTagFormDeleteLink($tagFormLi) {
+                var $removeFormButton = $('<button type="button">Delete this tag</button>');
+                $tagFormLi.append($removeFormButton);
+
+                $removeFormButton.on('click', function(e) {
+                    // remove the li for the tag form
+                    $tagFormLi.remove();
+                });
+            }
         </script>
     {% endblock %}
