@@ -1,0 +1,17 @@
+body {
+    background: url('http://www.hotel-atala.com/wp-content/uploads/2015/10/louvre.jpeg');
+    height: 100vh;
+    width: 100vw;
+}
+
+.opicity_back {
+    background: rgba(255,255,255,0.7);
+    height: 100vh;
+    width: 70%;
+    margin: auto;
+}
+
+.calendrier {
+    width: 31%;
+    margin: 0 auto;
+}

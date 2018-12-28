@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\BilletType;
@@ -19,7 +19,12 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('demiJournee', RadioType::class)
+            ->add('demiJournee', ChoiceType::class, array(
+                'choices' => array(
+                    'Oui' => true,
+                    'Non' => false,
+                ),
+                'expanded' => true))
             ->add('date', TextareaType::class)
             ->add('email', EmailType::class)
             ->add('billets', CollectionType::class, array(

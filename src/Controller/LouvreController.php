@@ -16,7 +16,7 @@ class LouvreController extends AbstractController
      */
     public function index(Request $request)
     {
-
+        $disabledates = ['29/12/2018', '01/01/2019', '30/12/2018'];
 
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -37,6 +37,7 @@ class LouvreController extends AbstractController
 
         return $this->render('louvre/index.html.twig', array(
             'form' => $form->createView(),
+            'dates' => $disabledates
         ));
     }
 }

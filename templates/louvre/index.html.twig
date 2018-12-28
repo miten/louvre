@@ -3,15 +3,147 @@
 {% block title %}Louvre!{% endblock %}
 
 {% block body %}
+<div class="opicity_back">
+    <!-- multistep form -->
+    <form id="msform" >
+        {{ form_start(form) }}
+        <!-- progressbar -->
+        <ul id="progressbar">
+            <li class="active">Date</li>
+            <li>Billets</li>
+            <li>Email</li>
+            <li>Paiement</li>
+        </ul>
+        <!-- fieldsets -->
+        <fieldset>
+            <h2 class="fs-title">Choisir une date</h2>
+            <div id="sandbox-container" class="calendrier">
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="input-sm form-control" name="start" readonly="readonly" />
+                </div>
+            </div>
+            {{ form_row(form.demiJournee) }}
+            <button type="button" name="nexte" class="nexte action-button">suivant</button>
+        </fieldset>
+        <fieldset>
+            <h2 class="fs-title">Social Profiles</h2>
+            {{ form_row(form.email) }}
+            <button type="button" name="previous" class="previous action-button">retour</button>
+            <button type="button" name="nexte" class="nexte action-button">suivant</button>
+        </fieldset>
+        <fieldset>
+            <h2 class="fs-title">Personal Details</h2>
+            {{ form_row(form.email) }}
+            <button type="button" name="previous" class="previous action-button">retour</button>
+            <button type="button" name="nexte" class="nexte action-button">suivant</button>
+        </fieldset>
+        <fieldset>
+            <h2 class="fs-title">Personal Details</h2>
+            <button type="button" name="previous" class="previous action-button">retour</button>
+            <button type="submit" name="nexte" class="nexte action-button">Envoyer</button>
+        </fieldset>
+        {{ form_end(form) }}
+    </form>
+</div>
 
-{{ form_start(form) }}
-    {{ form_row(form.email) }}
-    <div id="sandbox-container div"></div>
-
-
-{{ form_end(form) }}
-
+{% endblock %}
     {% block javascripts %}
 
+        {{ encore_entry_script_tags('app') }}
+
+        <script>
+            $('#sandbox-container').datepicker({
+                format: 'dd/mm/yyyy',
+                datesDisabled: {{ dates|json_encode|raw }},
+                daysOfWeekDisabled: '2',
+                language: "fr",
+                orientation: "auto",
+                startDate : new Date()
+            });
+        </script>
+        <script>
+
+            //jQuery time
+            var current_fs, next_fs, previous_fs; //fieldsets
+            var left, opacity, scale; //fieldset properties which we will animate
+            var animating; //flag to prevent quick multi-click glitches
+
+            $(".nexte").click(function(){
+                if(animating) return false;
+                animating = true;
+
+                current_fs = $(this).parent();
+                next_fs = $(this).parent().next();
+
+                //activate nexte step on progressbar using the index of next_fs
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                //show the nexte fieldset
+                next_fs.show();
+                //hide the current fieldset with style
+                current_fs.animate({opacity: 0}, {
+                    step: function(now, mx) {
+                        //as the opacity of current_fs reduces to 0 - stored in "now"
+                        //1. scale current_fs down to 80%
+                        scale = 1 - (1 - now) * 0.2;
+                        //2. bring next_fs from the right(50%)
+                        left = (now * 50)+"%";
+                        //3. increase opacity of next_fs to 1 as it moves in
+                        opacity = 1 - now;
+                        current_fs.css({
+                            'transform': 'scale('+scale+')',
+                            'position': 'absolute'
+                        });
+                        next_fs.css({'left': left, 'opacity': opacity});
+                    },
+                    duration: 800,
+                    complete: function(){
+                        current_fs.hide();
+                        animating = false;
+                    },
+                    //this comes from the custom easing plugin
+                    easing: 'easeInOutBack'
+                });
+            });
+
+            $(".previous").click(function(){
+                if(animating) return false;
+                animating = true;
+
+                current_fs = $(this).parent();
+                previous_fs = $(this).parent().prev();
+
+                //de-activate current step on progressbar
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+                //show the previous fieldset
+                previous_fs.show();
+                //hide the current fieldset with style
+                current_fs.animate({opacity: 0}, {
+                    step: function(now, mx) {
+                        //as the opacity of current_fs reduces to 0 - stored in "now"
+                        //1. scale previous_fs from 80% to 100%
+                        scale = 0.8 + (1 - now) * 0.2;
+                        //2. take current_fs to the right(50%) - from 0%
+                        left = ((1-now) * 50)+"%";
+                        //3. increase opacity of previous_fs to 1 as it moves in
+                        opacity = 1 - now;
+                        current_fs.css({'left': left});
+                        previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+                    },
+                    duration: 800,
+                    complete: function(){
+                        current_fs.hide();
+                        animating = false;
+                    },
+                    //this comes from the custom easing plugin
+                    easing: 'easeInOutBack'
+                });
+            });
+
+            $(".submit").click(function(){
+                return false;
+            })
+
+        </script>
     {% endblock %}
-{% endblock %}
