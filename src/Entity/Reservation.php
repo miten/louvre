@@ -44,7 +44,7 @@ class Reservation
     private $prixTotal;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Billet", mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Billet", mappedBy="reservation", cascade={"persist", "remove"}))
      */
     private $billets;
 
@@ -75,9 +75,10 @@ class Reservation
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(string $date): self
     {
-        $this->date = $date;
+        $myDateTime = \DateTime::createFromFormat('d-m-Y', $date);
+        $this->date = $myDateTime;
 
         return $this;
     }
@@ -111,10 +112,12 @@ class Reservation
         return $this->prixTotal;
     }
 
-    public function setPrixTotal(int $prixTotal): self
-    {
-        $this->prixTotal = $prixTotal;
+    public function setPrixTotal(): self
 
+    {
+        $this->prixTotal = 0;
+        $billets = $this->getBillets()->toArray();
+        foreach ($billets as $billet) { $this->prixTotal += $billet->getPrix(); }
         return $this;
     }
 
@@ -148,4 +151,6 @@ class Reservation
 
         return $this;
     }
+
+
 }

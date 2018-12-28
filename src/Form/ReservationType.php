@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\CallbackTransformer;
 use App\Form\BilletType;
 
 class ReservationType extends AbstractType
@@ -20,10 +21,7 @@ class ReservationType extends AbstractType
     {
         $builder
             ->add('demiJournee', CheckboxType::class, array('required' => false,))
-            ->add('date', DateType::class, array(
-                'widget' => 'single_text',
-                'html5' => false,
-                'format' => 'yyyy-MM-dd',
+            ->add('date', TextType::class, array(
                 'attr' => ['class' => 'input-sm form-control']))
             ->add('email', EmailType::class)
             ->add('billets', CollectionType::class, array(

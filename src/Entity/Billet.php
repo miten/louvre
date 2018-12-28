@@ -14,6 +14,8 @@ class Billet
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
+
+
     private $id;
 
     /**
@@ -37,20 +39,22 @@ class Billet
     private $tarifReduit;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $tarif;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $prix;
 
-
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $code;
+
+
+
 
 
 
@@ -104,7 +108,7 @@ class Billet
     public function setTarifReduit(string $tarifReduit): self
     {
         $this->tarifReduit = $tarifReduit;
-
+        $this->setPrix(13);
         return $this;
     }
 
@@ -133,17 +137,16 @@ class Billet
         return $this;
     }
 
-
     public function getCode(): ?string
     {
         return $this->code;
     }
 
-
-    public function setCode(string $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 
         return $this;
     }
+
 }

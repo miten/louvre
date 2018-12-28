@@ -19,10 +19,13 @@
             <h2 class="fs-title">Choisir une date</h2>
             <div id="sandbox-container" class="calendrier">
                 <div class="input-daterange input-group" id="datepicker">
-                    {{ form_row(form.date, {'attr': {'name':'start', 'readonly':'readonly'}}) }}
+                    {{ form_widget(form.date, {'attr': {'name':'start', 'readonly':'readonly'}}) }}
                 </div>
             </div>
-            {{ form_row(form.demiJournee) }}
+            <div class="demi_journee_form">
+                <p>Demi journée ? ( A partir de 14h)</p>
+                {{ form_widget(form.demiJournee) }}
+            </div>
             <button type="button" name="nexte" class="nexte action-button">suivant</button>
         </fieldset>
         <fieldset>
@@ -55,7 +58,7 @@
 
         <script>
             $('#sandbox-container').datepicker({
-                format: 'yyyy-mm-dd',
+                format: 'dd-mm-yyyy',
                 datesDisabled: {{ dates|json_encode|raw }},
                 daysOfWeekDisabled: '2',
                 language: "fr",
@@ -197,6 +200,7 @@
                 // Display the form in the page in an li, before the "Add a tag" link li
                 var $newFormLi = $('<li></li>').append(newForm);
                 $newLinkLi.before($newFormLi);
+                addTagFormDeleteLink($newFormLi);
             }
 
 

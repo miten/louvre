@@ -21,7 +21,7 @@ class LouvreController extends AbstractController
 
 
 
-        $disabledates = ['29/12/2018', '01/01/2019', '30/12/2018'];
+        $disabledates = ['29-12-2018'];
 
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -32,9 +32,9 @@ class LouvreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $reservation = $form->getData();
-            var_dump($reservation);
-
-
+            $reservation->setPrixTotal();
+            $em->persist($reservation);
+            $em->flush();
 
         }
 
