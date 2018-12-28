@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Louvre!{% endblock %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_row(form.email) }}
+    <div id="sandbox-container div"></div>
+
+
+{{ form_end(form) }}
+
+    {% block javascripts %}
+
+    {% endblock %}
+{% endblock %}
