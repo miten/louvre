@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Calendrier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Reservation;
@@ -19,9 +20,11 @@ class LouvreController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
+        $disabledates = $this->getDoctrine()->getRepository(Calendrier::class)->getDisabledDates();
+        $calendrier = new Calendrier();
+        $dates = $calendrier->getDisabledDatesOnly($disabledates);
 
 
-        $disabledates = ['29-12-2018'];
 
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -42,7 +45,7 @@ class LouvreController extends AbstractController
 
         return $this->render('louvre/index.html.twig', array(
             'form' => $form->createView(),
-            'dates' => $disabledates
+            'dates' => $dates
         ));
     }
 }
