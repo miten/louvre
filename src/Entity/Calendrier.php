@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\CalendrierRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,7 +39,7 @@ class Calendrier
 
     public function setVentes(?int $ventes): self
     {
-        $this->ventes = $ventes;
+        $this->ventes += $ventes;
 
         return $this;
     }
@@ -55,17 +56,9 @@ class Calendrier
         return $this;
     }
 
-    public function getDisabledDatesOnly($disabledates)
+    public function getDisabledDates()
     {
 
-        $dates = array();
-
-
-        foreach ($disabledates as $date) {
-            array_push($dates, $date->getDate());
-        }
-
-        return $dates;
 
     }
 
