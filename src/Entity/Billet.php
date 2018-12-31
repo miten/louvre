@@ -142,8 +142,16 @@ class Billet
         return $this->code;
     }
 
-    public function setCode(?string $code): self
+    public function setCode(): self
     {
+
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $code = '';
+        for ($i = 0; $i < 10; $i++) {
+            $code .= $characters[rand(0, $charactersLength - 1)];
+        }
+
         $this->code = $code;
 
         return $this;

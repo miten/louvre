@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Service\PdffService;
+use App\Service\StripeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,22 +36,12 @@ class LouvreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
-
             $reservation = $form->getData();
             $reservation->setPrixTotal();
 
-
-            $ventes = $calendrierService->AjoutVentes($reservation);
-
-
-
-            $em->merge($ventes);
-            $em->flush();
-            $em->persist($reservation);
+            return $this->forward('App\Controller\LouvreController::paiement', array('reservation'  => $reservation));
 
         }
-
 
 
         return $this->render('louvre/index.html.twig', array(
@@ -59,14 +51,47 @@ class LouvreController extends AbstractController
     }
 
 
-    public function paiement(Request $request, CalendrierService $calendrierService) {
 
+    public function recapitulatif($reservation) {
 
-        $reservation = 'lol';
+        if (!isset($reservation)) {
+            return $this->render('louvre/erreur.html.twig', array('erreur' => 'Aucune réservation'));
+        }
 
-
-        return $this->render('louvre/paiement.html.twig', array(
+        return $this->render('louvre/recap.html.twig', array(
             'reservation' => $reservation,
         ));
     }
+
+
+
+
+    public function paiement($reservation, CalendrierService $calendrierService, StripeService $stripeService, PdffService $pdf) {
+
+
+
+        foreach ($reservation->getBillets() as $billet) {
+            $billet->setCode();
+            $html = $this->render('louvre/facture.html.twig', array('reservation' => $reservation, 'billet' => $billet));
+            $pdf->getPdf($html, $billet);
+
+        }
+
+
+
+
+        if (1 == 1) {
+
+            return $this->render('louvre/paiement.html.twig');
+        }
+
+
+        else {
+            return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));
+        }
+
+
+
+    }
+
 }
