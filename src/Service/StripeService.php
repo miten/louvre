@@ -9,6 +9,8 @@ class StripeService
     public function Token($email, $prixTotal)
     {
 
+
+
         \Stripe\Stripe::setApiKey('sk_test_ScvgEh5PaD7Dqx7yL74t0K3p');
 
         $token  = $_POST['stripeToken'];

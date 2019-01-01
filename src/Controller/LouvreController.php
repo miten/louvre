@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\EmailService;
 use App\Service\PdffService;
 use App\Service\StripeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,23 +67,26 @@ class LouvreController extends AbstractController
 
 
 
-    public function paiement($reservation, CalendrierService $calendrierService, StripeService $stripeService, PdffService $pdf) {
+    public function paiement($reservation, CalendrierService $calendrierService, StripeService $stripeService, PdffService $pdfService, EmailService $emailService) {
 
+        $reservation->setToken('fff');
 
+        if ($reservation->getToken() != null) {
 
         foreach ($reservation->getBillets() as $billet) {
             $billet->setCode();
-            $html = $this->render('louvre/facture.html.twig', array('reservation' => $reservation, 'billet' => $billet));
-            $pdf->getPdf($html, $billet);
 
         }
 
+        $emailService->sendEmail($reservation);
 
 
 
-        if (1 == 1) {
 
-            return $this->render('louvre/paiement.html.twig');
+
+
+        return $this->render('louvre/paiement.html.twig');
+
         }
 
 
