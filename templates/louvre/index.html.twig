@@ -3,9 +3,8 @@
 {% block title %}Louvre!{% endblock %}
 
 {% block body %}
-<div class="opicity_back">
-    <!-- multistep form -->
-    <div id="msform" >
+
+    <div id="msform" class="col-xs-12 col-lg-6">
         {{ form_start(form) }}
         <!-- progressbar -->
         <ul id="progressbar">
@@ -16,7 +15,7 @@
         </ul>
         <!-- fieldsets -->
         <fieldset>
-            <h2 class="fs-title">Choisir une date</h2>
+            <h2 class="fs-title">Selectionner une date</h2>
             <div id="sandbox-container" class="calendrier">
                 <div class="input-daterange input-group" id="datepicker">
                     {{ form_widget(form.date, {'attr': {'name':'start', 'readonly':'readonly'}}) }}
@@ -29,22 +28,19 @@
             <button type="button" name="nexte" class="nexte action-button">suivant</button>
         </fieldset>
         <fieldset>
-            <h2 class="fs-title">Social Profiles</h2>
-            <ul class="tags" data-prototype="{{ form_widget(form.billets.vars.prototype)|e('html_attr') }}">
-                ...
-            </ul>
+            <h2 class="fs-title">Billets</h2>
+            <ul class="tags" data-prototype="{{ form_widget(form.billets.vars.prototype)|e('html_attr') }}"></ul>
             <button type="button" name="previous" class="previous action-button">retour</button>
             <button type="button" name="nexte" class="nexte action-button">suivant</button>
         </fieldset>
         <fieldset>
-            <h2 class="fs-title">Personal Details</h2>
-            {{ form_row(form.email) }}
+            <h2 class="fs-title">Email</h2>
+            {{ form_widget(form.email) }}
             <button type="button" name="previous" class="previous action-button">retour</button>
             {{ form_row(form.save, { 'attr': {'class': 'nexte action-button'} }) }}
         </fieldset>
         {{ form_end(form) }}
     </div>
-</div>
 
 {% endblock %}
     {% block javascripts %}

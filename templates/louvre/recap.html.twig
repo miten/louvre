@@ -5,7 +5,7 @@
 {% block body %}
     <div class="opicity_back">
         <!-- multistep form -->
-        <div id="msform" >
+        <div id="msform">
             <!-- progressbar -->
             <ul id="progressbar">
                 <li>Date</li>
@@ -28,9 +28,28 @@
                     <p></p>
                 </div>
                 <button type="button" onclick="window.location.href='http://localhost:8000/louvre'" name="previous" class="previous action-button">retour</button>
+                <div class="paiement_form">
+                    <form action="{{ path('paiement') }}" method="POST">
+                        <input type="hidden" name="reservations" value="lool">
+                        <script
+                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                data-key="pk_test_OlhgfVOQRiXeNJu77afAsrtL"
+                                data-amount="{{ reservation.prixTotal }}00€"
+                                data-currency="EUR"
+                                data-email="{{ reservation.email }}"
+                                data-label="Payer"
+                                data-allow-remember-me="false"
+                                data-name="Musée du Louvre"
+                                data-description="Billets {{ reservation.prixTotal }}€"
+                                data-image="http://www.iphon.fr/public/2009/Q4/.musee-louvre-iphone-1_s.jpg"
+                                data-locale="auto">
+                        </script>
+                    </form>
+                </div>
             </fieldset>
         </div>
     </div>
+
 
 {% endblock %}
     {% block javascripts %}

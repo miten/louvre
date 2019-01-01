@@ -15,8 +15,7 @@ use App\Service\CalendrierService;
 
 use App\Entity\Reservation;
 use App\Form\ReservationType;
-
-
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class LouvreController extends AbstractController
@@ -34,21 +33,15 @@ class LouvreController extends AbstractController
         $form->handleRequest($request);
 
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $reservation = $form->getData();
             $reservation->setPrixTotal();
-
-            return $this->forward('App\Controller\LouvreController::paiement', array('reservation'  => $reservation));
+            return $this->forward('App\Controller\LouvreController::recapitulatif', array('reservation'  => $reservation));
 
         }
 
-
-        return $this->render('louvre/index.html.twig', array(
-            'form' => $form->createView(),
-            'dates' => $disabledDates
-        ));
+        return $this->render('louvre/index.html.twig', array('form' => $form->createView(), 'dates' => $disabledDates));
     }
 
 
@@ -59,41 +52,49 @@ class LouvreController extends AbstractController
             return $this->render('louvre/erreur.html.twig', array('erreur' => 'Aucune réservation'));
         }
 
-        return $this->render('louvre/recap.html.twig', array(
-            'reservation' => $reservation,
-        ));
+
+        else {
+            $session = new Session();
+            $session->set('reservation',$reservation);
+            return $this->render('louvre/recap.html.twig', array('reservation' => $reservation));
+        }
+
     }
 
 
 
+    public function paiement(CalendrierService $calendrierService, StripeService $stripeService, PdffService $pdfService, EmailService $emailService) {
 
-    public function paiement($reservation, CalendrierService $calendrierService, StripeService $stripeService, PdffService $pdfService, EmailService $emailService) {
 
-        $reservation->setToken('fff');
+        $session = new Session();
+        $reservation = $session->get('reservation');
 
-        if ($reservation->getToken() != null) {
+        $em = $this->getDoctrine()->getManager();
 
         foreach ($reservation->getBillets() as $billet) {
             $billet->setCode();
-
         }
 
-        $emailService->sendEmail($reservation);
+        $token = $stripeService->Stripe($reservation, $_POST['stripeToken']);
+        $reservation->setToken($token);
 
 
+        if ($reservation->getToken() != null) {
+
+            $emailService->sendEmail($reservation);
 
 
-
-
-        return $this->render('louvre/paiement.html.twig');
-
+            $ventes = $calendrierService->AjoutVentes($reservation);
+            $em->persist($reservation);
+            $em->persist($ventes);
+            $em->flush();
+            return $this->render('louvre/paiement.html.twig');
         }
 
 
         else {
             return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));
         }
-
 
 
     }

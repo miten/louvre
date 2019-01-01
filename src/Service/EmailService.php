@@ -30,7 +30,7 @@ class EmailService
 
         $message = (new \Swift_Message('Hello Email'))
             ->setSubject('Billeterie musée du Louvre')
-            ->setFrom('museedulouvre@example.com')
+            ->setFrom('museedulouvre@louvre.fr')
             ->setTo($reservation->getEmail())
             ->setBody($html);
 

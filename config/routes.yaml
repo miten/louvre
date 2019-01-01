@@ -4,3 +4,7 @@
 recapitulatif:
     path: /recap
     controller: App\Controller\LouvreController::recapitulatif
+
+paiement:
+    path: /paiement
+    controller: App\Controller\LouvreController::paiement

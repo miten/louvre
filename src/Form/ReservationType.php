@@ -34,7 +34,7 @@ class ReservationType extends AbstractType
                 )
 
             )
-            ->add('save', SubmitType::class, array('label' => 'Reserver'))
+            ->add('save', SubmitType::class, array('label' => 'Valider'))
             ->getForm();
 
         ;
