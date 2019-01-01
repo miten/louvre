@@ -53,6 +53,11 @@ class Billet
      */
     private $code;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $age;
+
 
 
 
@@ -141,6 +146,24 @@ class Billet
     {
         return $this->code;
     }
+
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(\DateTimeInterface $age): self
+    {
+
+        $now = new \DateTime();
+        $interval = $now->diff($age);
+        $this->age = $interval->y;
+
+        return $this;
+    }
+
+
 
     public function setCode(): self
     {

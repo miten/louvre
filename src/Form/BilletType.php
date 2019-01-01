@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Billet;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,6 +17,7 @@ class BilletType extends AbstractType
         $builder
             ->add('prenom', TextType::class)
             ->add('nom', TextType::class)
+            ->add('age', BirthdayType::class)
             ->add('tarifReduit', CheckboxType::class, array('required' => false,))
         ;
     }

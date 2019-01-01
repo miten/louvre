@@ -88,11 +88,13 @@ class LouvreController extends AbstractController
             $em->persist($reservation);
             $em->persist($ventes);
             $em->flush();
+            $session->clear();
             return $this->render('louvre/paiement.html.twig');
         }
 
 
         else {
+            $session->clear();
             return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));
         }
 

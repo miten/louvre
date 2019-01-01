@@ -36,7 +36,7 @@
 #msform input, #msform textarea {
     padding: 15px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 30px;
     margin-bottom: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -44,6 +44,8 @@
     font-size: 15px;
     font-family: 'Ubuntu', sans-serif;
     text-align: center;
+    text-transform: uppercase;
+
 }
 /*buttons*/
 #msform .action-button {

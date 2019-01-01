@@ -13,13 +13,13 @@ require('../css/bootstrap-datepicker.css');
 require('../css/form.css');
 require('../css/styles.css');
 
-
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 require('./jqueryUi');
 require('bootstrap');
 require('./bootstrap-datepicker');
 require('./bootstrap-datepicker.fr.min');
+
 
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

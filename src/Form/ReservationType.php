@@ -20,7 +20,7 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('demiJournee', CheckboxType::class, array('required' => false,))
+            ->add('demiJournee', CheckboxType::class, array('required' => false, 'attr' => array('class'=>'magic-checkbox')))
             ->add('date', TextType::class, array(
                 'attr' => ['class' => 'input-sm form-control']))
             ->add('email', EmailType::class)

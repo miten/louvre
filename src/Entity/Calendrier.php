@@ -56,11 +56,5 @@ class Calendrier
         return $this;
     }
 
-    public function getDisabledDates()
-    {
-
-
-    }
-
 
 }
