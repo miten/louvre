@@ -17,8 +17,8 @@ class BilletType extends AbstractType
         $builder
             ->add('prenom', TextType::class)
             ->add('nom', TextType::class)
-            ->add('age', BirthdayType::class)
-            ->add('tarifReduit', CheckboxType::class, array('required' => false,))
+            ->add('age', BirthdayType::class, array('years' => range(date('Y') -10, date('Y') -90)))
+            ->add('tarifReduit', CheckboxType::class, array('required' => false))
         ;
     }
 

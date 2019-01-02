@@ -1,0 +1,25 @@
+<div id="collection_form">
+    <div class="separation"></div>
+    <div class="row">
+        <div class="text-center col-lg-6 col-sm-10">
+            {{ form_label(form.prenom) }}
+            {{ form_widget(form.prenom, { 'attr': {'class': 'form-control prenom'} }) }}
+        </div>
+        <div class="text-center col-lg-6 col-sm-10">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, { 'attr': {'class': 'form-control nom'} }) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-6 col-sm-10">
+           <p>Date de naissance</p>
+            {{ form_widget(form.age.day) }}
+            {{ form_widget(form.age.month) }}
+            {{ form_widget(form.age.year) }}
+        </div>
+        <div class="text-center col-lg-6 col-sm-10">
+            {{ form_label(form.tarifReduit) }} ?<br>
+            {{ form_widget(form.tarifReduit) }}
+        </div>
+    </div>
+</div>
