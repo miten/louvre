@@ -49,7 +49,7 @@
 }
 /*buttons*/
 #msform .action-button {
-    width: 90px;
+    width: 20%;
     background: #2E62EC;
     font-weight: bold;
     color: white;
@@ -59,7 +59,15 @@
     margin: 10px 5px;
     border-radius: 60px;
     height: auto;
+
 }
+
+@media(max-width:500px){
+    #msform .action-button {
+        width: 40%;
+    }
+}
+
 #msform .action-button:hover, #msform .action-button:focus {
     box-shadow: 0 0 0 2px white, 0 0 0 3px #2E62EC;
 }

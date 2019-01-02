@@ -47,3 +47,7 @@ input[type=checkbox]
 .add_tag_link {
 
 }
+
+.infos_billets {
+    display: none;
+}

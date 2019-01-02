@@ -20,6 +20,6 @@ require('bootstrap');
 require('./bootstrap-datepicker');
 require('./bootstrap-datepicker.fr.min');
 require('./form');
-
+require('./collection');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
