@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\EmailService;
 use App\Service\PdffService;
 use App\Service\StripeService;
+use App\Service\TarifsServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -46,7 +47,7 @@ class LouvreController extends AbstractController
 
 
 
-    public function recapitulatif($reservation) {
+    public function recapitulatif($reservation, TarifsServices $tarifsServices) {
 
         if (!isset($reservation)) {
             return $this->render('louvre/erreur.html.twig', array('erreur' => 'Aucune réservation'));
@@ -54,6 +55,9 @@ class LouvreController extends AbstractController
 
 
         else {
+
+            $tarifsServices->Calcul($reservation);
+
             $session = new Session();
             $session->set('reservation',$reservation);
             return $this->render('louvre/recap.html.twig', array('reservation' => $reservation));

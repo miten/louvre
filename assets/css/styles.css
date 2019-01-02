@@ -51,3 +51,24 @@ input[type=checkbox]
 .infos_billets {
     display: none;
 }
+
+.recap_prix_total {
+    padding-top: 20px;
+    float: right;
+}
+
+.recap_billets {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.prix_total {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #2d2d76;
+    float: right;
+}
+
+.stripe-button-el {
+    float: right;
+}

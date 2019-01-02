@@ -6,44 +6,48 @@ namespace App\Service;
 class TarifsServices
 {
 
-    public function Calcul($billet)
+    public function Calcul($reservation)
     {
-
         $nombreAdulte = 0;
         $nombreEnfant =0;
 
-        switch ($billet) {
+        foreach ($reservation->getBillets() as $billet) {
 
-            case ($billet->getTarifReduit() === true):
-                $billet->setPrix('10');
-                $billet->setTarif('Reduit');
-                break;
+            switch ($billet) {
 
-            case ($billet->getAge() >= 60):
-                $billet->setPrix('12');
-                $billet->setTarif('Senior');
-                break;
+                case ($billet->getTarifReduit() === true):
+                    $billet->setPrix('10');
+                    $billet->setTarif('reduit');
+                    break;
 
-            case ($billet->getAge() > 12 && $billet->getAge() < 60):
-                $billet->setPrix('16');
-                $billet->setTarif('Normal');
-                $nombreAdulte++;
-                break;
+                case ($billet->getAge() >= 60):
+                    $billet->setPrix('12');
+                    $billet->setTarif('senior');
+                    break;
 
-            case ($billet->getAge() >= 4 && $billet->getAge() <= 12):
-                $billet->setPrix('8');
-                $billet->setTarif('Enfant');
-                ++$nombreEnfant;
-                break;
+                case ($billet->getAge() > 12 && $billet->getAge() < 60):
+                    $billet->setPrix('16');
+                    $billet->setTarif('normal');
+                    $nombreAdulte + 1;
+                    break;
 
-            case ($billet->getAge() < 4):
-                $billet->setPrix('0');
-                $billet->setTarif('Jeune enfant');
-                break;
+                case ($billet->getAge() >= 4 && $billet->getAge() <= 12):
+                    $billet->setPrix('8');
+                    $billet->setTarif('enfant');
+                    $nombreEnfant + 1;
+                    break;
 
+                case ($billet->getAge() < 4):
+                    $billet->setPrix('0');
+                    $billet->setTarif('jeune enfant');
+                    break;
+
+            }
         }
 
-        return $billet;
+        $reservation->setPrixTotal();
+
     }
+
 
 }

@@ -87,7 +87,7 @@ class Billet
 
     public function setPrenom(string $prenom): self
     {
-        $this->prenom = $prenom;
+        $this->prenom = strtoupper($prenom);
 
         return $this;
     }
@@ -99,7 +99,7 @@ class Billet
 
     public function setNom(string $nom): self
     {
-        $this->nom = $nom;
+        $this->nom = strtoupper($nom);
 
         return $this;
     }
@@ -113,7 +113,6 @@ class Billet
     public function setTarifReduit(string $tarifReduit): self
     {
         $this->tarifReduit = $tarifReduit;
-        $this->setPrix(13);
         return $this;
     }
 
@@ -125,7 +124,7 @@ class Billet
 
     public function setTarif(string $tarif): self
     {
-        $this->tarif = $tarif;
+        $this->tarif = strtoupper($tarif);
 
         return $this;
     }
@@ -164,6 +163,7 @@ class Billet
     }
 
 
+    // Generation d'un code aléatoire pour le QRCODE
 
     public function setCode(): self
     {

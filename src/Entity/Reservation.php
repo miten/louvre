@@ -75,6 +75,9 @@ class Reservation
         return $this->date;
     }
 
+
+    // Converti le string en datetime
+
     public function setDate(string $date): self
     {
         $myDateTime = \DateTime::createFromFormat('d-m-Y', $date);
@@ -112,12 +115,19 @@ class Reservation
         return $this->prixTotal;
     }
 
+    // Boucle sur le prix des billets pour calculer le prix total
+
     public function setPrixTotal(): self
 
     {
         $this->prixTotal = 0;
         $billets = $this->getBillets()->toArray();
-        foreach ($billets as $billet) { $this->prixTotal += $billet->getPrix(); }
+        foreach ($billets as $billet) {
+            $this->prixTotal += $billet->getPrix();
+        }
+        if ($this->demiJournee === true) {
+            $this->prixTotal = $this->prixTotal / 2;
+        }
         return $this;
     }
 

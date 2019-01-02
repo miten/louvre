@@ -16,35 +16,64 @@
         <!-- fieldsets -->
         <fieldset>
             <h2 class="fs-title">Recapitulatif</h2>
-            <div id="sandbox-container" class="calendrier">
-                {% if reservation.demiJournee == 1 %}
-                    <p>Vous souhaitez réserver pour la demi journée du {{ reservation.date|date('d-m-Y') }}</p>
-                {% elseif reservation.demiJournee == 0 %}
-                    <p>Vous souhaitez réserver pour la journée entière du {{ reservation.date|date('d-m-Y') }}</p>
-                {% endif %}
+            <div class="row">
+                <div class="recap_journee col-lg-12">
+                    {% if reservation.demiJournee == 1 %}
+                        <p>Vous souhaitez réserver pour la demi journée du {{ reservation.date|date('d-m-Y') }}</p>
+                    {% elseif reservation.demiJournee == 0 %}
+                        <p>Vous souhaitez réserver pour la journée entière du {{ reservation.date|date('d-m-Y') }}</p>
+                    {% endif %}
+                </div>
             </div>
-
-            <div class="demi_journee_form">
-                <p></p>
+            <div class="row">
+                <div class="recap_billets col-lg-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Tarif</th>
+                                <th>Prix</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                            {% for billet in reservation.billets %}
+                                <tr>
+                                    <td>{{ billet.prenom }} . {{ billet.nom }}</td>
+                                    <td>{{ billet.tarif }}</td>
+                                    <td>{{ billet.prix }}€</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>
+                </div>
             </div>
-            <button type="button" onclick="window.location.href='http://localhost:8000/louvre'" name="previous" class="previous action-button">retour</button>
-            <div class="paiement_form">
-                <form action="{{ path('paiement') }}" method="POST">
-                    <input type="hidden" name="reservations" value="lool">
-                    <script
-                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                            data-key="pk_test_OlhgfVOQRiXeNJu77afAsrtL"
-                            data-amount="{{ reservation.prixTotal }}00€"
-                            data-currency="EUR"
-                            data-email="{{ reservation.email }}"
-                            data-label="Payer"
-                            data-allow-remember-me="false"
-                            data-name="Musée du Louvre"
-                            data-description="Billets {{ reservation.prixTotal }}€"
-                            data-image="http://www.iphon.fr/public/2009/Q4/.musee-louvre-iphone-1_s.jpg"
-                            data-locale="auto">
-                    </script>
-                </form>
+            <div class="row">
+                <div class="recap_prix_total col-lg-12">
+                    <p class="prix_total">Total: {{ reservation.prixTotal }}€</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="button" onclick="window.location.href='http://localhost:8000/louvre'" name="previous" class="previous action-button">retour</button>
+                    <div class="paiement_form">
+                        <form action="{{ path('paiement') }}" method="POST">
+                            <input type="hidden" name="reservations" value="lool">
+                            <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="pk_test_OlhgfVOQRiXeNJu77afAsrtL"
+                                    data-amount="{{ reservation.prixTotal }}00€"
+                                    data-currency="EUR"
+                                    data-email="{{ reservation.email }}"
+                                    data-label="Payer"
+                                    data-allow-remember-me="false"
+                                    data-name="Musée du Louvre"
+                                    data-description="Billets {{ reservation.prixTotal }}€"
+                                    data-image="http://www.iphon.fr/public/2009/Q4/.musee-louvre-iphone-1_s.jpg"
+                                    data-locale="auto">
+                            </script>
+                        </form>
+                    </div>
+                </div>
             </div>
         </fieldset>
     </div>
