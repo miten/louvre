@@ -20,27 +20,8 @@
         text-align: center;
     }
 
-    #qrcode {
-        margin: 80px;
-    }
 
-    .separation {
-        width: 90%;
-        border-bottom: 1px solid #000;
-        line-height: 0.1em;
-        margin-top: 1vw;
-        margin-bottom: 1vw;
-    }
 
-    .separation span {
-        padding: 0 10px;
-        font-weight: bold;
-        color: #314747;
-    }
-
-    .row {
-        float: left;
-    }
 
 
 </style>
@@ -60,7 +41,9 @@
         <p>Vous avez réservé pour la journée entière du {{ reservation.date|date('d-m-Y') }}</p>
     {% endif %}
 </div>
-
+<div id="qrcode">
+    <img src="{{ qr_code_data_uri('frgegergergregreg', {size: 300 }) }}" />
+</div>
 <div id="billets_facture" class="facture_step">
     <div id=billet">
         <ul style="list-style-type: none">

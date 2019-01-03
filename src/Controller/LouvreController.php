@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\PdfService;
 use App\Service\EmailService;
 use App\Service\PdffService;
 use App\Service\StripeService;
@@ -79,9 +80,8 @@ class LouvreController extends AbstractController
 
 
         // Création des pdf
-        foreach ($reservation->getBillets() as $billet) {
-            $billet->setCode();
-        }
+        $pdfService->getPdf($reservation);
+
 
         // Paiement stripe
         $token = $stripeService->Stripe($reservation, $_POST['stripeToken']);

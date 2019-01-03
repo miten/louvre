@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "dompdf/dompdf": "^0.8.3",
+        "endroid/qr-code": "^3.5",
         "endroid/qr-code-bundle": "^3.3",
         "sensio/framework-extra-bundle": "^5.1",
         "stripe/stripe-php": "^6.27",
