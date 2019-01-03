@@ -8,10 +8,8 @@ use App\Service\StripeService;
 use App\Service\TarifsServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-
-use App\Entity\Calendrier;
 use App\Service\CalendrierService;
 
 use App\Entity\Reservation;
@@ -27,8 +25,11 @@ class LouvreController extends AbstractController
     public function index(Request $request, CalendrierService $calendrierService)
     {
 
+        // Recupère les dates invalides
         $disabledDates = $calendrierService->getDates();
 
+
+        // Crée un formulaire de reservation
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
@@ -36,8 +37,8 @@ class LouvreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Recupère les données du formulaire et renvoie a la page recapitulatif lors de l'envoi
             $reservation = $form->getData();
-            $reservation->setPrixTotal();
             return $this->forward('App\Controller\LouvreController::recapitulatif', array('reservation'  => $reservation));
 
         }
@@ -49,18 +50,20 @@ class LouvreController extends AbstractController
 
     public function recapitulatif($reservation, TarifsServices $tarifsServices) {
 
-        if (!isset($reservation)) {
-            return $this->render('louvre/erreur.html.twig', array('erreur' => 'Aucune réservation'));
+        if (isset($reservation)) {
+            // Calcul des prix
+            $tarifsServices->Calcul($reservation);
+
+            // Ajout de la reservation en $session
+            $session = new Session();
+            $session->set('reservation',$reservation);
+
+            return $this->render('louvre/recap.html.twig', array('reservation' => $reservation));
         }
 
 
         else {
-
-            $tarifsServices->Calcul($reservation);
-
-            $session = new Session();
-            $session->set('reservation',$reservation);
-            return $this->render('louvre/recap.html.twig', array('reservation' => $reservation));
+            return $this->render('louvre/erreur.html.twig', array('erreur' => 'Aucune réservation'));
         }
 
     }
@@ -69,34 +72,44 @@ class LouvreController extends AbstractController
 
     public function paiement(CalendrierService $calendrierService, StripeService $stripeService, PdffService $pdfService, EmailService $emailService) {
 
-
         $session = new Session();
         $reservation = $session->get('reservation');
 
         $em = $this->getDoctrine()->getManager();
 
+
+        // Création des pdf
         foreach ($reservation->getBillets() as $billet) {
             $billet->setCode();
         }
 
+        // Paiement stripe
         $token = $stripeService->Stripe($reservation, $_POST['stripeToken']);
         $reservation->setToken($token);
 
 
+        // Si le paiement à bien été effectué
         if ($reservation->getToken() != null) {
 
+            // Envoie l'email de reservation
             $emailService->sendEmail($reservation);
 
-
+            // Ajoute les ventes à la base de donnée
             $ventes = $calendrierService->AjoutVentes($reservation);
-            $em->persist($reservation);
             $em->persist($ventes);
+
+            // Ajoute les reservations à la base de donnée
+            $em->persist($reservation);
+
+            // Envoie les données
             $em->flush();
             $session->clear();
-            return $this->render('louvre/paiement.html.twig');
+            return $this->render('louvre/paiement.html.twig', array('email' => $reservation->getEmail()));
         }
 
 
+
+        // Sinon page erreur
         else {
             $session->clear();
             return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));

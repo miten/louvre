@@ -61,23 +61,21 @@
                 language: "fr",
                 orientation: "auto",
                 startDate : new Date()
-
             });
         </script>
         <script>
-            $( "#afficher_tarifs" ).click(function(e) {
-                e.preventDefault();
-                $(".infos_billets").slideToggle('3000', function () {
-                  if (document.getElementById('afficher_tarifs').innerHTML === 'Masquer les tarifs') {
-                      document.getElementById('afficher_tarifs').innerHTML = 'Afficher les tarifs';
-                  }
-                  else {
-                      document.getElementById('afficher_tarifs').innerHTML = 'Masquer les tarifs';
-                  }
-                });
+            $('#sandbox-container').on('changeDate', function(event) {
+                const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
+                const selected = new Date(event.date).getTime();
+                const hour = new Date().getHours();
+                if ((today === selected) && hour > 14) {
+                    $("#reservation_demiJournee").prop( "checked", true );
+                    $("#reservation_demiJournee").prop( "disabled", true );
+                }
+                else {
+                    $("#reservation_demiJournee").prop( "checked", false );
+                    $("#reservation_demiJournee").prop( "disabled", false );
+                }
             });
-        </script>
-        <script>
-
         </script>
     {% endblock %}

@@ -80,7 +80,14 @@ class Reservation
 
     public function setDate(string $date): self
     {
+        date_default_timezone_set('Europe/Paris');
         $myDateTime = \DateTime::createFromFormat('d-m-Y', $date);
+
+        $today = date('d-m-Y');
+        $heure = date('H');
+
+        if (date($date) === $today AND $heure > 14) { $this->setDemiJournee(true); }
+
         $this->date = $myDateTime;
 
         return $this;
