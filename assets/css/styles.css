@@ -72,3 +72,15 @@ input[type=checkbox]
 .stripe-button-el {
     float: right;
 }
+
+#paiement_page h3 {
+
+    color: whitesmoke;
+    text-align: center;
+}
+
+#paiement_page p {
+
+    color: whitesmoke;
+    text-align: center;
+}

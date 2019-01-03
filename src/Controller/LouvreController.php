@@ -118,4 +118,8 @@ class LouvreController extends AbstractController
 
     }
 
+    public function test() {
+        return $this->render('louvre/billet.html.twig');
+    }
+
 }

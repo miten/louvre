@@ -7,7 +7,11 @@
 </head>
 <style>
     body {
-        padding: 20px;
+
+        padding-top: 0px;
+        padding-left: 40px;
+        padding-right: 40px;
+        font-family: Arial;
     }
 
 
@@ -15,22 +19,17 @@
         text-align: center;
     }
 
+    p {
+
+        font-weight: bold;
+    }
+
+
 
     #journee_facture {
         text-align: center;
     }
 
-    #qrcode {
-        margin: 80px;
-    }
-
-    .separation {
-        width: 90%;
-        border-bottom: 1px solid #000;
-        line-height: 0.1em;
-        margin-top: 1vw;
-        margin-bottom: 1vw;
-    }
 
     .separation span {
         padding: 0 10px;
@@ -38,26 +37,25 @@
         color: #314747;
     }
 
-    .row {
-        float: left;
-    }
 
 
 </style>
 <body>
 
-
+<img src="https://cdn.myminifactory.com//uploads/profile-images/059a0ce97aef7d4c2673f3c36587abf5744907c7.jpg" width="300" height="300" alt="logo" />
 
 <h1>Billeterie</h1>
-
 
 <div id="journee_facture" class="">
     {% if reservation.demiJournee == 1 %}
         <p>Vous avez réservé pour la demi journée du {{ reservation.date|date('d-m-Y') }}</p>
+        <p>(Entrée à partir de 14h)</p>
     {% elseif reservation.demiJournee == 0 %}
         <p>Vous avez réservé pour la journée entière du {{ reservation.date|date('d-m-Y') }}</p>
     {% endif %}
 </div>
-
+<div id="facture_infos" class="">
+   <p>Vous trouverez ci-joint vos billets au format PDF,<br>vous avez la possibilité de les présenter directement sur votre smartphone</p>
+</div>
 </body>
 </html>

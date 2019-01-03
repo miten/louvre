@@ -8,3 +8,8 @@ recapitulatif:
 paiement:
     path: /paiement
     controller: App\Controller\LouvreController::paiement
+
+
+test:
+    path: /test
+    controller: App\Controller\LouvreController::test

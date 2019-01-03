@@ -1,16 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Louvre!{% endblock %}
+{% block title %}Louvre{% endblock %}
 
-{% block body %}
-<div class="col-xs-12 col-lg-6">
-    <h3>Reservation bien effectuée !</h3>
-    <p>Vous allez recevoir vos billets par Email à l'adresse :</p>
-</div>
-{% endblock %}
-    {% block javascripts %}
+    {% block body %}
 
-        {{ encore_entry_script_tags('app') }}
+    <div id="paiement_page" class="col-sm-12 text-center" style="margin-top: 10%">
+        <h3 style="color: white; font-weight: bold">Reservation effectuée !</h3>
+        <p style="color: white; font-weight: bold">Vous allez recevoir vos billets par Email à l'adresse : {{ email }}</p>
+    </div>
 
 
     {% endblock %}

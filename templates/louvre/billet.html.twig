@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+</head>
+<style>
+    body {
+        padding-top: 0px;
+        padding-left: 40px;
+        padding-right: 40px;
+        font-family: Arial;
+    }
+
+
+    h1{
+        text-align: center;
+
+    }
+
+    p
+    {
+
+        font-weight: bold;
+    }
+
+
+    #journee_facture {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    #billets_facture {
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    #qrcode {
+        margin-top: 100px;
+        float: right;
+    }
+
+
+
+
+</style>
+    <body>
+
+    <h1>Billeterie du louvre</h1>
+
+
+    <div id="journee_facture" class="">
+
+        {% if reservation.demiJournee == 1 %}
+            <p>Vous avez réservé pour la demi journée du {{ reservation.date|date('d-m-Y') }}</p>
+            <p>(Entrée à partir de 14h)</p>
+        {% elseif reservation.demiJournee == 0 %}
+            <p>Vous avez réservé pour la journée entière du {{ reservation.date|date('d-m-Y') }}</p>
+        {% endif %}
+
+        <p>Ce billet est à présenter lors du controle à l'entrée du musée,<br>une pièce d'identitée peut vous être demandé</p>
+
+    </div>
+    <div id="billets_facture" class="facture_step">
+
+            <ul style="list-style-type: none">
+                <li><p>Nom : {{ billet.nom }}</p></li>
+                <li><p>Prénom : {{ billet.prenom }}</p></li>
+                <li><p>Tarif : {{ billet.tarif }}</p></li>
+            </ul>
+    </div>
+    <div id="qrcode" style="display: inline-block">
+        <img src="{{ qr_code_data_uri(billet.code, {size: 150 }) }}" />
+    </div>
+    </body>
+</html>

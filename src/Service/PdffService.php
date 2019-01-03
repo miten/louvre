@@ -26,7 +26,7 @@ class PdffService
         foreach ($reservation->getBillets() as $billet) {
             $billet->setCode();
 
-            $html = $this->templating->render('louvre/facture.html.twig', array('reservation' => $reservation, 'billet' => $billet), 'text/html');
+            $html = $this->templating->render('louvre/billet.html.twig', array('reservation' => $reservation, 'billet' => $billet), 'text/html');
 
             $dompdf = new Dompdf();
             $dompdf->loadHtml($html);
