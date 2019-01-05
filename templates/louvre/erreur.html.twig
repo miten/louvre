@@ -3,7 +3,10 @@
 {% block title %}Louvre!{% endblock %}
 
 {% block body %}
-    <p>{% erreur %}</p>
+    <div id="paiement_page" class="col-sm-12 text-center" style="margin-top: 10%">
+        <h3 style="color: white; font-weight: bold">{{ erreur }} </h3>
+        <p style="color: white; font-weight: bold">retour au &nbsp;<a href="{{ path('index') }}"><button type="button"  class="btn btn-outline-light">Site</button></a> </p>
+    </div>
 
 {% endblock %}
     {% block javascripts %}

@@ -23,7 +23,7 @@ class ReservationType extends AbstractType
             ->add('demiJournee', CheckboxType::class, array('required' => false, 'attr' => array('class'=>'magic-checkbox')))
             ->add('date', TextType::class, array(
                 'attr' => ['class' => 'input-sm form-control']))
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, array('attr' => array('placeholder' => 'exemple@gmail.fr')))
             ->add('billets', CollectionType::class, array(
                     'entry_type'    => BilletType::class,
                     'allow_add'     => true,

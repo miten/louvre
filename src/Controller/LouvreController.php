@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Service\PdfService;
 use App\Service\EmailService;
 use App\Service\PdffService;
 use App\Service\StripeService;
@@ -76,50 +75,54 @@ class LouvreController extends AbstractController
         $session = new Session();
         $reservation = $session->get('reservation');
 
-        $em = $this->getDoctrine()->getManager();
 
 
-        // Création des pdf
-        $pdfService->getPdf($reservation);
+        if (isset($reservation)) {
+            // Connection base de donnée
+            $em = $this->getDoctrine()->getManager();
+
+            // Création des pdf
+            $pdfService->getPdf($reservation);
 
 
-        // Paiement stripe
-        $token = $stripeService->Stripe($reservation, $_POST['stripeToken']);
-        $reservation->setToken($token);
+            // Paiement stripe
+            $token = $stripeService->Stripe($reservation, $_POST['stripeToken']);
+            $reservation->setToken($token);
 
 
-        // Si le paiement à bien été effectué
-        if ($reservation->getToken() != null) {
+            // Si le paiement à bien été effectué
+            if ($reservation->getToken() != null) {
 
-            // Envoie l'email de reservation
-            $emailService->sendEmail($reservation);
+                // Envoie l'email de reservation
+                $emailService->sendEmail($reservation);
 
-            // Ajoute les ventes à la base de donnée
-            $ventes = $calendrierService->AjoutVentes($reservation);
-            $em->persist($ventes);
+                // Ajoute les ventes à la base de donnée
+                $ventes = $calendrierService->AjoutVentes($reservation);
+                $em->persist($ventes);
 
-            // Ajoute les reservations à la base de donnée
-            $em->persist($reservation);
+                // Ajoute les reservations à la base de donnée
+                $em->persist($reservation);
 
-            // Envoie les données
-            $em->flush();
-            $session->clear();
-            return $this->render('louvre/paiement.html.twig', array('email' => $reservation->getEmail()));
+                // Envoie les données
+                $em->flush();
+                $session->clear();
+                return $this->render('louvre/paiement.html.twig', array('email' => $reservation->getEmail()));
+            }
+
+            // Echec paiement page erreur
+            else {
+                $session->clear();
+                return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));
+            }
         }
 
 
-
-        // Sinon page erreur
+        // Pas de réservation page erreur
         else {
-            $session->clear();
-            return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));
+            return $this->render('louvre/erreur.html.twig', array('erreur' => 'Pas de réservation'));
         }
 
 
-    }
-
-    public function test() {
-        return $this->render('louvre/billet.html.twig');
     }
 
 }

@@ -34,7 +34,7 @@ class PdffService
             $dompdf->render();
             $pdf_gen = $dompdf->output();
 
-            file_put_contents($publicDirectory . '/web/pdf/billet_'.$billet->getCode().'.pdf', $pdf_gen);
+            file_put_contents($publicDirectory . '/assets/pdf/billet_'.$billet->getCode().'.pdf', $pdf_gen);
 
 
         }

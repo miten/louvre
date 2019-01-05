@@ -42,7 +42,7 @@ class EmailService
 
 
         foreach ($reservation->getBillets() as $billet) {
-            $file = $publicDirectory.'/web/pdf/billet_'.$billet->getCode().'.pdf';
+            $file = $publicDirectory.'/assets/pdf/billet_'.$billet->getCode().'.pdf';
             $message->attach(\Swift_Attachment::fromPath($file, 'application/pdf'));
         }
 

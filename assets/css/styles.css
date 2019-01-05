@@ -4,6 +4,7 @@ body {
     width: 100vw;
     font-family: 'Lato', sans-serif;
     list-style-type: none;
+    overflow-x: hidden;
 }
 
 
@@ -83,4 +84,13 @@ input[type=checkbox]
 
     color: whitesmoke;
     text-align: center;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+
 }

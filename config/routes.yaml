@@ -1,6 +1,7 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\LouvreController::index
+
 recapitulatif:
     path: /recap
     controller: App\Controller\LouvreController::recapitulatif
@@ -8,8 +9,3 @@ recapitulatif:
 paiement:
     path: /paiement
     controller: App\Controller\LouvreController::paiement
-
-
-test:
-    path: /test
-    controller: App\Controller\LouvreController::test
