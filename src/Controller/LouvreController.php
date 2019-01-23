@@ -48,17 +48,20 @@ class LouvreController extends AbstractController
 
 
 
-    public function recapitulatif($reservation, TarifsServices $tarifsServices) {
+    public function recapitulatif($reservation, $erreur = null, TarifsServices $tarifsServices) {
 
         if (isset($reservation)) {
-            // Calcul des prix
+            // Calcul du prix de chaque billet
             $tarifsServices->Calcul($reservation);
+
+            // Calcul et définition du prix total de la réservation
+            $reservation->setPrixTotal();
 
             // Ajout de la reservation en $session
             $session = new Session();
             $session->set('reservation',$reservation);
 
-            return $this->render('louvre/recap.html.twig', array('reservation' => $reservation));
+            return $this->render('louvre/recap.html.twig', array('reservation' => $reservation, 'erreur' => $erreur));
         }
 
 
@@ -74,8 +77,6 @@ class LouvreController extends AbstractController
 
         $session = new Session();
         $reservation = $session->get('reservation');
-
-
 
         if (isset($reservation)) {
             // Connection base de donnée
@@ -96,11 +97,11 @@ class LouvreController extends AbstractController
                 // Envoie l'email de reservation
                 $emailService->sendEmail($reservation);
 
-                // Ajoute les ventes à la base de donnée
+                // Ajoute des ventes à la base de donnée
                 $ventes = $calendrierService->AjoutVentes($reservation);
                 $em->persist($ventes);
 
-                // Ajoute les reservations à la base de donnée
+                // Ajoute de la reservations à la base de donnée
                 $em->persist($reservation);
 
                 // Envoie les données
@@ -109,10 +110,9 @@ class LouvreController extends AbstractController
                 return $this->render('louvre/paiement.html.twig', array('email' => $reservation->getEmail()));
             }
 
-            // Echec paiement page erreur
+            // Echec paiement , retour au recap
             else {
-                $session->clear();
-                return $this->render('louvre/erreur.html.twig', array('erreur' => 'Echec paiement'));
+                return $this->forward('App\Controller\LouvreController::recapitulatif', array('reservation'  => $reservation, 'erreur' => true));
             }
         }
 

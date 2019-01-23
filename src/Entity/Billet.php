@@ -59,6 +59,11 @@ class Billet
     private $age;
 
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $nationalite;
+
 
 
 
@@ -161,6 +166,23 @@ class Billet
 
         return $this;
     }
+
+
+
+    public function getNationalite(): ?string
+    {
+        return $this->nationalite;
+    }
+
+
+    public function setNationalite(string $nationalite): self
+    {
+
+        $this->nationalite = $nationalite;
+        return $this;
+    }
+
+
 
 
     // Generation d'un code aléatoire pour le QRCODE

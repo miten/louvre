@@ -24,16 +24,16 @@ ul > li {
     margin: auto;
 }
 
-
-
-input[type=checkbox]
-{
-    /* Double-sized Checkboxes */
-    -ms-transform: scale(1.5); /* IE */
-    -moz-transform: scale(1.5); /* FF */
-    -webkit-transform: scale(1.5); /* Safari and Chrome */
-    -o-transform: scale(1.5); /* Opera */
-    padding: 10px;
+.magic-checkbox  {
+    -webkit-appearance:none !important;
+    width:20px !important;;
+    height:20px !important;;
+    background:white !important;;
+    border-radius:5px !important;
+    border:2px solid #555 !important;;
+}
+input[type='checkbox']:checked {
+    background: #abd !important;
 }
 
 
@@ -61,6 +61,8 @@ input[type=checkbox]
 .recap_billets {
     padding-top: 30px;
     padding-bottom: 30px;
+	min-height: 50vh;
+
 }
 
 .prix_total {

@@ -7,19 +7,21 @@
     position: relative;
 }
 
-.previous {
-    float: left;
+
+.email_form {
+    margin-top: 20%;
+    margin-bottom: 15%;
+	vertical-align:middle;
+	height: 40vh;
 }
 
-.nexte {
-    float: right;
-}
+
 #msform fieldset {
     background: white;
     border: 0 none;
     border-radius: 3px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-    padding: 20px 30px;
+    padding: 20px 45px;
     box-sizing: border-box;
     width: 100%;
     min-height: 100vh;
@@ -59,6 +61,21 @@
     height: auto;
 
 }
+
+.nexte {
+	float: right;
+}
+
+.nexty {
+	float: right;
+
+}
+
+.previous {
+    float: left;
+}
+
+
 
 @media(max-width:500px){
     #msform .action-button {

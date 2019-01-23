@@ -25,7 +25,7 @@
                 <p>Pour accéder au musée en <span class="font-weight-bold">demi journée</span> <br>(à partir de 14h) cochez la case :</p>
                 {{ form_widget(form.demiJournee) }}
             </div>
-            <button type="button" name="nexte" class="nexte action-button">suivant</button>
+            <button type="button" name="nexte" id="next1" class="nexte action-button" style="background-color: grey" disabled>suivant</button>
         </fieldset>
         <fieldset>
             <h2 class="fs-title">Billets</h2>
@@ -37,11 +37,14 @@
                 <li class="billet" id="model_billet">{{ include('louvre/collectionstyle.html.twig', { 'form': form.billets.vars.prototype }) }}</li>
             </ul>
             <button type="button" name="previous" class="previous action-button">retour</button>
-            <button type="button" name="nexte" class="nexte action-button">suivant</button>
+            <button type="button" name="nexte" id="next2" class="nexty action-button">suivant</button>
         </fieldset>
         <fieldset>
             <h2 class="fs-title">Email</h2>
-            {{ form_widget(form.email) }}
+            <div class="email_form">
+            	<p>Veuillez renseigner l'adresse email à laquelle sera envoyé la réservation</p>
+                {{ form_widget(form.email) }}
+            </div>
             <button type="button" name="previous" class="previous action-button">retour</button>
             {{ form_row(form.save, { 'attr': {'class': 'float-right action-button'} }) }}
         </fieldset>
@@ -57,7 +60,7 @@
             $('#sandbox-container').datepicker({
                 format: 'dd-mm-yyyy',
                 datesDisabled: {{ dates|json_encode|raw }},
-                daysOfWeekDisabled: '2',
+                daysOfWeekDisabled: "2,0",
                 language: "fr",
                 orientation: "auto",
                 startDate : new Date()
@@ -68,14 +71,21 @@
                 const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
                 const selected = new Date(event.date).getTime();
                 const hour = new Date().getHours();
-                if ((today === selected) && hour > 14) {
+                $("#next1").attr('disabled', false);
+                $("#next1").css("background-color", "#2E62EC");
+                if ((today === selected) && hour >= 14) {
                     $("#reservation_demiJournee").prop( "checked", true );
                     $("#reservation_demiJournee").prop( "disabled", true );
                 }
                 else {
+
                     $("#reservation_demiJournee").prop( "checked", false );
                     $("#reservation_demiJournee").prop( "disabled", false );
                 }
             });
+
+        </script>
+        <script>
+
         </script>
     {% endblock %}
