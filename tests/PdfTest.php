@@ -4,12 +4,12 @@ namespace App\Tests;
 
 use App\Entity\Billet;
 use App\Entity\Reservation;
-use App\Service\TarifsServices;
+use App\Service\PdffService;
 use PHPUnit\Framework\TestCase;
 
-class TarifsTest extends TestCase
+class PdfTest extends TestCase
 {
-    public function test(TarifsServices $tarifsServices)
+    public function test(PdffService $pdfService, TarifsServices $tarifsServices)
     {
 
         $billet = new Billet();
@@ -22,12 +22,10 @@ class TarifsTest extends TestCase
         $reservation->setDemiJournee(0);
         $reservation->setEmail('test@test.fr');
 
-
         $tarifsServices->Calcul($reservation);
         $reservation->setPrixTotal();
 
-        $result = $reservation->getPrixTotal();
+        $pdfService->getPdf($reservation);
 
-        $this->assertEquals(16, $result);
     }
 }

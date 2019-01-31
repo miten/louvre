@@ -28,15 +28,18 @@ class CalendrierService
 
         $heure = date('H');
         $year = date('Y');
-
+		$futureYears = $year + 5;
 
 
         // Initialisation du tableau des dates à désactiver
         $dates = array();
 
         // Liste des jours fériés
-
-        $joursferies = ['25-12-'.$year, '01-05-'.$year, '01-11-'.$year];
+        
+        $joursferies = array();
+		for ($year; $year < $futureYears; $year++) {
+		   array_push($joursferies, '25-12-'.$year, '01-05-'.$year, '01-11-'.$year);
+		} 
 
 
         // Si 18h passé, billeterie fermée le jour même

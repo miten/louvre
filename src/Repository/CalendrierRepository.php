@@ -24,7 +24,7 @@ class CalendrierRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.ventes > :ventes')
-            ->setParameter('ventes', 5)
+            ->setParameter('ventes', 1000)
             ->getQuery()
             ->getResult();
     }

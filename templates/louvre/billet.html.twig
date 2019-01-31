@@ -40,6 +40,7 @@
     #qrcode {
         margin-top: 100px;
         float: right;
+        text-align: center
     }
 
 
@@ -72,9 +73,10 @@
                 <li><p>Nationalité : {{ billet.nationalite }}</p></li>
             </ul>
     </div>
-    <div id="qrcode" style="display: inline-block; text-align: center">
-        <img src="{{ qr_code_data_uri(billet.code, {size: 150 }) }}" />
-        <p>{{ billet.code }}</p>
+
+    <div id="qrcode">
+        <img src="{{ qr_code_data_uri(billet.code, {size: 150, label: billet.code }) }}" />
     </div>
+
     </body>
 </html>

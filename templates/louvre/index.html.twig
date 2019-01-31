@@ -3,7 +3,6 @@
 {% block title %}Louvre{% endblock %}
 
 {% block body %}
-
     <div id="msform" class="col-sm-12 col-md-6">
         {{ form_start(form) }}
         <!-- progressbar -->
@@ -15,6 +14,7 @@
         </ul>
         <!-- fieldsets -->
         <fieldset>
+            {% trans %}Selectionner une date {% endtrans %}
             <h2 class="fs-title">Selectionner une date</h2>
             <div id="sandbox-container" class="calendrier">
                 <div class="input-daterange input-group" id="datepicker">
@@ -63,7 +63,8 @@
                 daysOfWeekDisabled: "2,0",
                 language: "fr",
                 orientation: "auto",
-                startDate : new Date()
+                startDate : new Date(),
+               	endDate: new Date(new Date().setDate(new Date().getDate() + 1800))
             });
         </script>
         <script>
@@ -88,4 +89,5 @@
         <script>
 
         </script>
+
     {% endblock %}

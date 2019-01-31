@@ -3,29 +3,16 @@
 namespace App\Tests;
 
 use App\Entity\Billet;
+use App\Entity\Calendrier;
 use App\Entity\Reservation;
+use App\Service\CalendrierService;
 use PHPUnit\Framework\TestCase;
 
-class TarifsTest extends TestCase
+class CalendrierTest extends TestCase
 {
-    public function test()
+    public function test(CalendrierService $calendrierService)
     {
-
-        $billet = new Billet();
-        $billet->setNom('thomas');
-        $billet->setPrenom('good');
-        $billet->setTarifReduit(false);
-        $billet->setAge(26);
-        $reservation = new Reservation();
-        $reservation->addBillet($billet);
-        $reservation->setDemiJournee(0);
-        $reservation->setEmail('test@test.fr');
-        $reservation->setDemiJournee(1);
-
-        $reservation->setPrixTotal();
-
-        $result = $reservation->getPrixTotal();
-
-        $this->assertEquals(16, $result);
+        $dates = $calendrierService->getDates();
+        $this->assertEquals(5, count($dates));
     }
 }
