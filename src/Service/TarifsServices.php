@@ -41,6 +41,8 @@ class TarifsServices
             }
         }
 
+        return $reservation;
+
     }
 
 

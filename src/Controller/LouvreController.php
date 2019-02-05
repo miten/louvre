@@ -36,7 +36,6 @@ class LouvreController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Recupère les données du formulaire et renvoie a la page recapitulatif lors de l'envoi
             $reservation = $form->getData();
             return $this->forward('App\Controller\LouvreController::recapitulatif', array('reservation'  => $reservation));

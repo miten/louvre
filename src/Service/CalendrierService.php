@@ -39,7 +39,7 @@ class CalendrierService
         $joursferies = array();
 		for ($year; $year < $futureYears; $year++) {
 		   array_push($joursferies, '25-12-'.$year, '01-05-'.$year, '01-11-'.$year);
-		} 
+		}
 
 
         // Si 18h passé, billeterie fermée le jour même
