@@ -8,20 +8,17 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class PdffService
 {
-    private $appKernel;
+    private $upload_directory;
     private $templating;
 
-    public function __construct(\Twig_Environment $templating, KernelInterface $appKernel)
+    public function __construct(\Twig_Environment $templating, $upload_directory)
     {
         $this->templating = $templating;
-        $this->appKernel = $appKernel;
+        $this->upload_directory = $upload_directory;
     }
 
 
     public function getPdf($reservation) {
-
-        $publicDirectory =  $this->appKernel->getProjectDir();
-
 
         foreach ($reservation->getBillets() as $billet) {
             $billet->setCode();
@@ -34,7 +31,7 @@ class PdffService
             $dompdf->render();
             $pdf_gen = $dompdf->output();
 
-            file_put_contents($publicDirectory . '/assets/pdf/billet_'.$billet->getCode().'.pdf', $pdf_gen);
+            file_put_contents($this->upload_directory . 'billet_'.$billet->getCode().'.pdf', $pdf_gen);
 
 
         }
